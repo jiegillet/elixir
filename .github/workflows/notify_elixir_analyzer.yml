@@ -1,0 +1,30 @@
+# Source: https://stackoverflow.com/questions/64407333/using-github-actions-to-automatically-update-the-repos-submodules
+name: 'Submodule Notify Elixir Analyzer'
+
+on:
+  push:
+    branches:
+      - jie-submodule    
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  notify:
+    name: 'Submodule Notify Elixir Analyzer'
+    runs-on: ubuntu-latest
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Github REST API Call
+      env:
+        CI_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PARENT_REPO: jiegillet/elixir-analyzer
+        PARENT_BRANCH: jie-submodule
+        WORKFLOW_ID: 13207495
+      run: |
+        curl -fL --retry 3 -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token ${{ env.GITHUB_TOKEN }}" https://api.github.com/repos/${{ env.PARENT_REPO }}/actions/workflows/${{ env.WORKFLOW_ID }}/dispatches -d '{"ref":"${{ env.PARENT_BRANCH }}"}'
