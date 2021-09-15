@@ -22,7 +22,7 @@ jobs:
     steps:
     - name: Github REST API Call
       env:
-        CI_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CI_TOKEN: ${{ secrets.SUBMODULE_TOKEN }}
         PARENT_REPO: jiegillet/elixir-analyzer
         PARENT_BRANCH: jie-submodule
         WORKFLOW_ID: 13207495
